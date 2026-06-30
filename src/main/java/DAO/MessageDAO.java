@@ -103,12 +103,14 @@ public class MessageDAO {
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
         try {
+            System.out.println("Before");
             String sql = "SELECT * FROM message WHERE posted_by=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setInt(1, messageId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
+            System.out.println("After");
             while (resultSet.next()) {
                 Message message = new Message(resultSet.getInt("message_id"), resultSet.getInt("posted_by"), resultSet.getString("message_text"), resultSet.getLong("time_posted_epoch"));
                 messages.add(message);
