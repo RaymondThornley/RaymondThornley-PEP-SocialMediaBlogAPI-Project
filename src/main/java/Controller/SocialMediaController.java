@@ -42,7 +42,6 @@ public class SocialMediaController {
         app.patch("messages/{message_id}", this::updateMessage);
         app.get("accounts/{account_id}/messages", this::getMessageByAccount);
 
-        app.start(8080);
         return app;
     }
 
