@@ -51,6 +51,12 @@ public class MessageService {
 
     public Message updateMessage(int messageId, Message newMessage) {
         String newMessageText = newMessage.getMessage_text();
+        if (newMessageText.length() == 0) {
+            return null;
+        }
+        if (newMessageText.length() > 255) {
+            return null;
+        }
         messageDAO.updateMessage(messageId, newMessageText);
         return messageDAO.getMessageById(messageId);
     }
