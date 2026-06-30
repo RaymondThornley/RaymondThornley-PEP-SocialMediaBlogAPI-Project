@@ -1,9 +1,11 @@
 package Controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Model.Account;
 import Model.Message;
+import Service.AccountService;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
@@ -13,6 +15,11 @@ import io.javalin.http.Context;
  * refer to prior mini-project labs and lecture materials for guidance on how a controller may be built.
  */
 public class SocialMediaController {
+    private AccountService accountService;
+
+    public SocialMediaController() {
+        this.accountService = new AccountService();
+    }
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
@@ -30,13 +37,14 @@ public class SocialMediaController {
         app.patch("messages/{message_id}", this::updateMessage);
         app.get("accounts/{account_id}/messages", this::getMessageByAccount);
 
+        app.start(8080);
         return app;
     }
 
-    private void registerUser(Context context) {
+    private void registerUser(Context context) throws JsonProcessingException  {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(context.body(), Account.class);
-        Account newAccount = socialMediaService.registerUser(account);
+        Account newAccount = accountService.registerUser(account);
         if(newAccount != null){
             context.json(mapper.writeValueAsString(newAccount));
         }else{
@@ -44,10 +52,10 @@ public class SocialMediaController {
         }
     }
 
-    private void loginUser(Context context) {
+    private void loginUser(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(context.body(), Account.class);
-        Account newAccount = socialMediaService.loginUser(account);
+        Account newAccount = accountService.loginUser(account);
         if(newAccount != null){
             context.json(mapper.writeValueAsString(newAccount));
         }else{
@@ -58,7 +66,7 @@ public class SocialMediaController {
     private void createMessage(Context context) {
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(context.body(), Message.class);
-        Message newMessage = socialMediaService.createMessage(message);
+        Message newMessage = messageService.createMessage(message);
         if(newMessage != null){
             context.json(mapper.writeValueAsString(newMessage));
         }else{
@@ -68,21 +76,21 @@ public class SocialMediaController {
 
     private void getMessages(Context context) {
         ObjectMapper mapper = new ObjectMapper();
-        Message[] messages = socialMediaService.getMessages();
+        Message[] messages = messageService.getMessages();
         context.json(mapper.writeValueAsString(messages));
     }
 
     private void getMessage(Context context) {
         ObjectMapper mapper = new ObjectMapper();
         String messageId = context.queryParam("message_id");
-        Message message = socialMediaService.getMessage(messageId);
+        Message message = messageService.getMessage(messageId);
         context.json(mapper.writeValueAsString(message));
     }
 
     private void deleteMessage(Context context) {
         ObjectMapper mapper = new ObjectMapper();
         String messageId = context.queryParam("message_id");
-        Message message = socialMediaService.deleteMessage(messageId);
+        Message message = messageService.deleteMessage(messageId);
         context.json(mapper.writeValueAsString(message));
     }
 
@@ -90,7 +98,7 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
         String messageId = context.queryParam("message_id");
         Message message = mapper.readValue(context.body(), Message.class);
-        Message newMessage = socialMediaService.updateMessage(messageId, message);
+        Message newMessage = messageService.updateMessage(messageId, message);
         if(newMessage != null){
             context.json(mapper.writeValueAsString(newMessage));
         }else{
@@ -101,7 +109,7 @@ public class SocialMediaController {
     private void getMessageByAccount(Context context) {
         ObjectMapper mapper = new ObjectMapper();
         String accountId = context.queryParam("account_id");
-        Message[] messages = socialMediaService.getMessageByAccount(accountId);
+        Message[] messages = messageService.getMessageByAccount(accountId);
         context.json(mapper.writeValueAsString(messages));
     }
 }
