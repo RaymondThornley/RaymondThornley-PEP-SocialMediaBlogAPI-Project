@@ -30,6 +30,9 @@ public class AccountService {
 
     public Account loginUser(Account loginAccount) {
         Account existingAccount = accountDAO.getAccountByUsername(loginAccount.username);
+        if (existingAccount == null) {
+            return null;
+        }
         if (existingAccount.getPassword().equals(loginAccount.getPassword())) {
             return existingAccount;
         }
