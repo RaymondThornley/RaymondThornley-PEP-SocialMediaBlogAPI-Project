@@ -38,4 +38,24 @@ public class MessageService {
     public List<Message> getAllMessages() {
         return this.messageDAO.getAllMessages();
     }
+
+    public Message getMessage(int messageId) {
+        return this.messageDAO.getMessageById(messageId);
+    }
+
+    public Message deleteMessage(int messageId) {
+        Message deletedMessage = messageDAO.getMessageById(messageId);
+        this.messageDAO.deleteMessage(messageId);
+        return deletedMessage;
+    }
+
+    public Message updateMessage(int messageId, Message newMessage) {
+        String newMessageText = newMessage.getMessage_text();
+        messageDAO.updateMessage(messageId, newMessageText);
+        return messageDAO.getMessageById(messageId);
+    }
+
+    public List<Message> getMessageByAccount(int accountId) {
+        return messageDAO.getMessageByAccount(accountId);
+    }
 }
