@@ -86,21 +86,21 @@ public class SocialMediaController {
 
     private void getMessage(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        int messageId = Integer.parseInt(context.queryParam("message_id"));
+        int messageId = Integer.parseInt(context.pathParam("message_id"));
         Message message = messageService.getMessage(messageId);
         context.json(mapper.writeValueAsString(message));
     }
 
     private void deleteMessage(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        int messageId = Integer.parseInt(context.queryParam("message_id"));
+        int messageId = Integer.parseInt(context.pathParam("message_id"));
         Message message = messageService.deleteMessage(messageId);
         context.json(mapper.writeValueAsString(message));
     }
 
     private void updateMessage(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        int messageId = Integer.parseInt(context.queryParam("message_id"));
+        int messageId = Integer.parseInt(context.pathParam("message_id"));
         Message message = mapper.readValue(context.body(), Message.class);
         Message newMessage = messageService.updateMessage(messageId, message);
         if(newMessage != null){
@@ -112,7 +112,7 @@ public class SocialMediaController {
 
     private void getMessageByAccount(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        int accountId = Integer.parseInt(context.queryParam("account_id"));
+        int accountId = Integer.parseInt(context.pathParam("account_id"));
         List<Message> messages = messageService.getMessageByAccount(accountId);
         context.json(mapper.writeValueAsString(messages));
     }
