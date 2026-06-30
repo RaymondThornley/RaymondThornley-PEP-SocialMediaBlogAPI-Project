@@ -19,7 +19,7 @@ public class AccountDAO {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
-                Account account = new Account(resultSet.getInt("account_id"), resultSet.getString("username"), resultSet.getString("password"));
+                return new Account(resultSet.getInt("account_id"), resultSet.getString("username"), resultSet.getString("password"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
