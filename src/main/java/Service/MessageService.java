@@ -45,7 +45,9 @@ public class MessageService {
 
     public Message deleteMessage(int messageId) {
         Message deletedMessage = messageDAO.getMessageById(messageId);
-        this.messageDAO.deleteMessage(messageId);
+        if (deletedMessage != null) {
+            this.messageDAO.deleteMessage(messageId);
+        }
         return deletedMessage;
     }
 

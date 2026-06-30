@@ -88,14 +88,18 @@ public class SocialMediaController {
         ObjectMapper mapper = new ObjectMapper();
         int messageId = Integer.parseInt(context.pathParam("message_id"));
         Message message = messageService.getMessage(messageId);
-        context.json(mapper.writeValueAsString(message));
+        if (message != null) {
+            context.json(mapper.writeValueAsString(message));
+        }
     }
 
     private void deleteMessage(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         int messageId = Integer.parseInt(context.pathParam("message_id"));
         Message message = messageService.deleteMessage(messageId);
-        context.json(mapper.writeValueAsString(message));
+        if (message != null) {
+            context.json(mapper.writeValueAsString(message));
+        }
     }
 
     private void updateMessage(Context context) throws JsonProcessingException {
