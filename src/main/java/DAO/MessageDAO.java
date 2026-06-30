@@ -100,14 +100,14 @@ public class MessageDAO {
         }
     }
 
-    public List<Message> getMessageByAccount(int messageId) {
+    public List<Message> getMessageByAccount(int accountId) {
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
         try {
             String sql = "SELECT * FROM message WHERE posted_by=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1, messageId);
+            preparedStatement.setInt(1, accountId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
