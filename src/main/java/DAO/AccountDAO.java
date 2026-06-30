@@ -9,6 +9,24 @@ import Model.Account;
 import Util.ConnectionUtil;
 
 public class AccountDAO {
+    public Account getAccountById(int accountId) {
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            String sql = "SELECT * FROM account WHERE account_id=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1, accountId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                return new Account(resultSet.getInt("account_id"), resultSet.getString("username"), resultSet.getString("password"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
     public Account getAccountByUsername(String username) {
         Connection connection = ConnectionUtil.getConnection();
         try {
