@@ -28,6 +28,7 @@ public class MessageService {
         if (newMessage.getMessage_text().length() > 255) {
             return null;
         }
+
         Account messageAccount = this.accountDAO.getAccountById(newMessage.getPosted_by());
         if (messageAccount == null) {
             return null;
@@ -59,6 +60,7 @@ public class MessageService {
         if (newMessageText.length() > 255) {
             return null;
         }
+        
         messageDAO.updateMessage(messageId, newMessageText);
         return messageDAO.getMessageById(messageId);
     }

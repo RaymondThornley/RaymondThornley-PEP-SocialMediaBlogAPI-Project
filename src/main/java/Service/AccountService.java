@@ -21,6 +21,7 @@ public class AccountService {
         if (newAccount.getPassword().length() < 4) {
             return null;
         }
+        
         Account existingAccount = accountDAO.getAccountByUsername(newAccount.getUsername());
         if (existingAccount != null) {
             return null;
