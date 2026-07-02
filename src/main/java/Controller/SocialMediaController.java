@@ -52,7 +52,7 @@ public class SocialMediaController {
         if(newAccount != null){
             context.json(mapper.writeValueAsString(newAccount));
         }else{
-            context.status(400);
+            context.status(500);
         }
     }
 
